@@ -36,9 +36,15 @@ public:
     }
 
     string print(){
-        stringstream ss;
-        ss << "(" << x << ", " << y << ", " << z << ")";
-        return ss.str();
+        string description = "";
+        try {
+            description = get_description();
+        } catch (exception& e) {
+            cerr << e.what() << endl;
+            return "Vector3D";
+        }
+
+        return description;
     }
 
     Vector3D add(Vector3D& vector){
@@ -64,4 +70,12 @@ private:
     int y;
     int z;
 
+    std::string get_description() {
+        stringstream ss;
+        ss << "(" << x << ", " << y << ", " << z << ")";
+        if (ss.fail())
+            throw "get_description: stringstream failure!";
+        return ss.str();
+    }
 };
+
